@@ -7,6 +7,7 @@ export default function HomePage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4 py-8">
+      Welcome Lior !! first pull request
       <h1 className="mb-4 text-4xl font-bold">
         {language === "en"
           ? "Welcome to the Open Uni Forum"
