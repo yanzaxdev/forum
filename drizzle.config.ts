@@ -1,12 +1,15 @@
-import { type Config } from "drizzle-kit";
+import {config} from 'dotenv';
+import {type Config} from 'drizzle-kit';
+import {env} from '~/env';
 
-import { env } from "~/env";
+// Explicitly load .env.local
+config({path: '.env.local'});
 
 export default {
-  schema: "./src/server/db/schema.ts",
-  dialect: "postgresql",
+  schema: './src/server/db/schema.ts',
+  dialect: 'postgresql',
   dbCredentials: {
-    url: env.DATABASE_URL,
+    url: env.POSTGRES_URL,
   },
-  tablesFilter: ["forum_*"],
+  tablesFilter: ['forum_*'],
 } satisfies Config;
