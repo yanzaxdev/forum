@@ -2,6 +2,13 @@ import "~/styles/globals.css";
 import type { ReactNode } from "react";
 import { Providers } from "./providers"; // We'll create a separate file for theme and context providers
 import NavBar from "~/app/_components/Navbar";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
 
 export const metadata = {
   title: "Open Uni Forum",
@@ -10,13 +17,21 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="bg-background text-foreground min-h-screen transition-colors">
-        <Providers>
+    <ClerkProvider>
+      <html lang="en" suppressHydrationWarning>
+        <body className="bg-background text-foreground min-h-screen transition-colors">
+          {/* <Providers> */}
           <NavBar />
+          <SignedOut>
+            <SignInButton />
+          </SignedOut>
+          <SignedIn>
+            <UserButton />
+          </SignedIn>
           {children}
-        </Providers>
-      </body>
-    </html>
+          {/* </Providers> */}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
