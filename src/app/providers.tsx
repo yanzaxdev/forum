@@ -1,19 +1,20 @@
 "use client";
 
 import { ThemeProvider } from "next-themes";
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useMemo } from "react";
 import type { ReactNode } from "react";
 
 type Language = "en" | "he";
 
-// Create a Language context
 const LanguageContext = createContext<{
-  language: Language;
+  lang: Language;
+  isHeb: boolean;
   toggleLanguage: () => void;
 }>({
-  language: "en",
+  lang: "en",
+  isHeb: false,
   toggleLanguage: () => {
-    console.warn("toggleLanguage function is not implemented");
+    console.log("No provider found");
   },
 });
 
@@ -24,13 +25,18 @@ export function useLanguage() {
 export function Providers({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>("en");
 
+  // Use useMemo to derive isHebrew from language
+  const isHebrew = useMemo(() => language === "he", [language]);
+
   const toggleLanguage = () => {
     setLanguage((prev) => (prev === "en" ? "he" : "en"));
   };
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <LanguageContext.Provider value={{ language, toggleLanguage }}>
+      <LanguageContext.Provider
+        value={{ lang: language, isHeb: isHebrew, toggleLanguage }}
+      >
         {children}
       </LanguageContext.Provider>
     </ThemeProvider>

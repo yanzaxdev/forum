@@ -1,22 +1,14 @@
-"use client";
+import { xTrans } from "~/translations";
+import { Text } from "./components/text";
 
-import { useLanguage } from "./providers";
-
-export default function HomePage() {
-  const { language } = useLanguage();
-
+export default async function HomePage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4 py-8">
-      Welcome Lior !! first pull request
       <h1 className="mb-4 text-4xl font-bold">
-        {language === "en"
-          ? "Welcome to the Open Uni Forum"
-          : "ברוכים הבאים לפורום האוניברסיטה הפתוחה"}
+        <Text text={xTrans.welcomeMessage}></Text>
       </h1>
       <p className="mb-6 max-w-md text-center text-lg">
-        {language === "en"
-          ? "A place to share thoughts, leave feedback, and explore courses offered at the Open University."
-          : "מקום לשתף מחשבות, להשאיר משוב, ולחקור קורסים באוניברסיטה הפתוחה."}
+        <Text text={xTrans.welcomeDescription}></Text>
       </p>
     </main>
   );

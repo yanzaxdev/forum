@@ -6,9 +6,10 @@ import {
   CardHeader,
   CardTitle,
   CardContent,
-} from "~/app/_components/Card";
+} from "~/app/components/Card";
 import { useLanguage } from "../providers";
-
+import { Text } from "~/app/components/text";
+import { xTrans } from "~/translations";
 type DB_Course = {
   id: number;
   titleEn: string;
@@ -23,18 +24,18 @@ interface CoursesListProps {
 }
 
 export default function CoursesList({ courses }: CoursesListProps) {
-  const { language } = useLanguage();
+  const { lang, isHeb } = useLanguage();
 
   return (
-    <>
+    <div dir={isHeb ? "rtl" : "ltr"}>
       <h1 className="mb-4 text-3xl font-bold">
-        {language === "en" ? "Courses" : "קורסים"}
+        <Text text={xTrans.courses}></Text>
       </h1>
       <div className="grid gap-4">
         {courses.map((course) => {
-          const title = language === "en" ? course.titleEn : course.titleHe;
+          const title = lang === "en" ? course.titleEn : course.titleHe;
           const desc =
-            language === "en" ? course.descriptionEn : course.descriptionHe;
+            lang === "en" ? course.descriptionEn : course.descriptionHe;
 
           return (
             <Card key={course.id}>
@@ -47,13 +48,13 @@ export default function CoursesList({ courses }: CoursesListProps) {
                   href={`/courses/${course.id}`}
                   className="text-blue-500 hover:underline"
                 >
-                  {language === "en" ? "View Course" : "צפה בקורס"}
+                  <Text text={xTrans.viewCourse}></Text>
                 </Link>
               </CardContent>
             </Card>
           );
         })}
       </div>
-    </>
+    </div>
   );
 }

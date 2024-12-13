@@ -1,7 +1,7 @@
 import "~/styles/globals.css";
 import type { ReactNode } from "react";
 import { Providers } from "./providers"; // We'll create a separate file for theme and context providers
-import NavBar from "~/app/_components/Navbar";
+import NavBar from "~/app/components/Navbar";
 import {
   ClerkProvider,
   SignInButton,
@@ -20,18 +20,19 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body className="bg-background text-foreground min-h-screen transition-colors">
-          {/* <Providers> */}
-          <NavBar />
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-          {children}
-          {/* </Providers> */}
+          <Providers>
+            <NavBar />
+            {children}
+          </Providers>
         </body>
       </html>
     </ClerkProvider>
   );
 }
+
+// <SignedOut>
+//   <SignInButton />
+// </SignedOut>
+// <SignedIn>
+//   <UserButton />
+// </SignedIn>

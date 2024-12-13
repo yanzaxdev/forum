@@ -5,7 +5,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "~/app/_components/Card";
+} from "~/app/components/Card";
 import { db } from "~/server/db"; // db should be your Drizzle db instance
 import { courses } from "~/server/db/schema";
 
