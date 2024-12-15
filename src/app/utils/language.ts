@@ -3,7 +3,7 @@ import {xTrans} from '~/translations';
 
 export async function serverDetLang(searchParams?: SearchParams) {
   const sp = await searchParams;
-  const lang = sp?.lang === 'he' ? 'he' : 'en';
+  const lang = sp?.lang === 'he' ? 'he' : 'he';
   const isHeb = lang === 'he';
   const t = xTrans[lang];
   return {lang, t, isHeb};

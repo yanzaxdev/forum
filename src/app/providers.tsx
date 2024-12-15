@@ -23,7 +23,7 @@ export function useLanguage() {
 
 export function Providers({ children }: { children: ReactNode }) {
   const searchParams = useSearchParams();
-  const language = (searchParams.get("lang") as Language) || "en";
+  const language = (searchParams.get("lang") as Language) || "he";
 
   // Memoize the derived value to avoid unnecessary re-renders
   const isHebrew = useMemo(() => language === "he", [language]);
