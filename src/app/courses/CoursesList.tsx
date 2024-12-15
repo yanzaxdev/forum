@@ -40,7 +40,7 @@ export default function CoursesList({ courses }: CoursesListProps) {
               <CardContent>
                 <p className="mb-2">{desc}</p>
                 <Link
-                  href={`/courses/${course.id}`}
+                  href={`/courses/${course.id}?lang=${lang}`}
                   className="text-blue-500 hover:underline"
                 >
                   {t.viewCourse}
