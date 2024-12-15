@@ -8,7 +8,7 @@ import { useLanguage } from "../providers";
 
 export default function NavBar() {
   const { theme, setTheme } = useTheme();
-  const { isHeb, lang, t } = useLanguage();
+  const { isHeb, lang, t, langParam } = useLanguage();
 
   return (
     <nav
@@ -17,12 +17,12 @@ export default function NavBar() {
     >
       {/* Navigation Links */}
       <div className="flex items-center gap-2">
-        <Link href={`/?lang=${lang}`}>
+        <Link href={`/${langParam}`}>
           <span className="text-xl font-bold hover:underline">
             {t.openUniForum}
           </span>
         </Link>
-        <Link href={`/courses?lang=${lang}`} className="hover:underline">
+        <Link href={`/${langParam}`} className="hover:underline">
           {t.courses}
         </Link>
       </div>

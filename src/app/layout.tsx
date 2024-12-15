@@ -9,6 +9,7 @@ import {
   SignedOut,
   UserButton,
 } from "@clerk/nextjs";
+import { popScript } from "./script";
 
 export const metadata = {
   title: "Open Uni Forum",

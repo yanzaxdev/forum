@@ -1,5 +1,6 @@
 import { xTrans } from "~/translations";
 import { serverDetLang } from "./utils/language";
+import { popScript } from "./script";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage({
@@ -8,6 +9,9 @@ export default async function HomePage({
   searchParams: { lang?: string };
 }) {
   const { t } = await serverDetLang(searchParams);
+
+  const res = await popScript();
+  console.log(res);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4 py-8">
