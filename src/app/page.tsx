@@ -7,7 +7,7 @@ export default async function HomePage({
 }: {
   searchParams: { lang?: string };
 }) {
-  const { isHeb, lang, t } = await serverDetLang(searchParams);
+  const { t } = await serverDetLang(searchParams);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4 py-8">

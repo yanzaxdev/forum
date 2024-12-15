@@ -31,13 +31,9 @@ export function Providers({ children }: { children: ReactNode }) {
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <Suspense fallback={<div>Loading...</div>}>
-        <LanguageContext.Provider
-          value={{ lang: language, isHeb: isHebrew, t }}
-        >
-          {children}
-        </LanguageContext.Provider>
-      </Suspense>
+      <LanguageContext.Provider value={{ lang: language, isHeb: isHebrew, t }}>
+        {children}
+      </LanguageContext.Provider>
     </ThemeProvider>
   );
 }
