@@ -6,13 +6,11 @@ import { Button } from "~/app/components/Button";
 import { Sun, Moon } from "lucide-react";
 import { xTrans } from "~/translations";
 import { useSearchParams } from "next/navigation";
+import { useLanguage } from "../providers";
 
 export default function NavBar() {
   const { theme, setTheme } = useTheme();
-  const searchParams = useSearchParams();
-  const language = searchParams.get("lang") || "en";
-  const isHeb = language === "he";
-  const t = isHeb ? xTrans.he : xTrans.en;
+  const { isHeb, lang, t } = useLanguage();
 
   return (
     <nav
@@ -21,12 +19,12 @@ export default function NavBar() {
     >
       {/* Navigation Links */}
       <div className="flex items-center gap-2">
-        <Link href="/">
+        <Link href={`/?lang=${lang}`}>
           <span className="text-xl font-bold hover:underline">
             {t.openUniForum}
           </span>
         </Link>
-        <Link href="/courses" className="hover:underline">
+        <Link href={`/courses?lang=${lang}`} className="hover:underline">
           {t.courses}
         </Link>
       </div>

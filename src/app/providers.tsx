@@ -1,23 +1,43 @@
 "use client";
 
 import { ThemeProvider } from "next-themes";
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useMemo, ReactNode, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import type { ReactNode } from "react";
+import { xTrans } from "~/translations";
 
 type Language = "en" | "he";
 
+const LanguageContext = createContext<{
+  lang: Language;
+  isHeb: boolean;
+  t: typeof xTrans.en | typeof xTrans.he;
+}>({
+  lang: "en",
+  isHeb: false,
+  t: xTrans.en,
+});
+
+export function useLanguage() {
+  return useContext(LanguageContext);
+}
+
 export function Providers({ children }: { children: ReactNode }) {
-  // Use the search parameters to determine the current language
   const searchParams = useSearchParams();
   const language = (searchParams.get("lang") as Language) || "en";
 
   // Memoize the derived value to avoid unnecessary re-renders
   const isHebrew = useMemo(() => language === "he", [language]);
+  const t = useMemo(() => (isHebrew ? xTrans.he : xTrans.en), [isHebrew]);
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      {children}
+      <Suspense fallback={<div>Loading...</div>}>
+        <LanguageContext.Provider
+          value={{ lang: language, isHeb: isHebrew, t }}
+        >
+          {children}
+        </LanguageContext.Provider>
+      </Suspense>
     </ThemeProvider>
   );
 }

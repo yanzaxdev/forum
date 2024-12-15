@@ -6,8 +6,7 @@ import {
   CardTitle,
   CardContent,
 } from "~/app/components/Card";
-import { xTrans } from "~/translations";
-import { useLanguage } from "../hooks/useLanguage";
+import { useLanguage } from "../providers";
 type DB_Course = {
   id: number;
   titleEn: string;
