@@ -11,7 +11,7 @@ export default async function HomePage({
   const { t } = await serverDetLang(searchParams);
 
   const res = await popScript();
-  console.log(res);
+  if (res) console.log(res);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4 py-8">
