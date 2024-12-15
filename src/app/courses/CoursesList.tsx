@@ -1,5 +1,4 @@
 "use client";
-
 import Link from "next/link";
 import {
   Card,
@@ -7,9 +6,8 @@ import {
   CardTitle,
   CardContent,
 } from "~/app/components/Card";
-import { useLanguage } from "../providers";
-import { Text } from "~/app/components/text";
 import { xTrans } from "~/translations";
+import { useLanguage } from "../hooks/useLanguage";
 type DB_Course = {
   id: number;
   titleEn: string;
@@ -24,13 +22,11 @@ interface CoursesListProps {
 }
 
 export default function CoursesList({ courses }: CoursesListProps) {
-  const { lang, isHeb } = useLanguage();
+  const { lang, isHeb, t } = useLanguage();
 
   return (
     <div dir={isHeb ? "rtl" : "ltr"}>
-      <h1 className="mb-4 text-3xl font-bold">
-        <Text text={xTrans.courses}></Text>
-      </h1>
+      <h1 className="mb-4 text-3xl font-bold">{t.courses}</h1>
       <div className="grid gap-4">
         {courses.map((course) => {
           const title = lang === "en" ? course.titleEn : course.titleHe;
@@ -48,7 +44,7 @@ export default function CoursesList({ courses }: CoursesListProps) {
                   href={`/courses/${course.id}`}
                   className="text-blue-500 hover:underline"
                 >
-                  <Text text={xTrans.viewCourse}></Text>
+                  {t.viewCourse}
                 </Link>
               </CardContent>
             </Card>

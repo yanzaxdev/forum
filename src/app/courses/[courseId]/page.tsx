@@ -8,10 +8,12 @@ import {
 } from "~/app/components/Card";
 import { db } from "~/server/db"; // db should be your Drizzle db instance
 import { courses } from "~/server/db/schema";
+import { SearchParams } from "next/dist/server/request/search-params";
+import { serverDetLang } from "~/app/utils/language";
 
 type CourseProps = {
   params: { courseId: string };
-  searchParams?: { lang?: "en" | "he" };
+  searchParams?: SearchParams;
 };
 
 // This is a server component now, no `use client` at the top
@@ -19,10 +21,10 @@ export default async function CoursePage({
   params,
   searchParams,
 }: CourseProps) {
-  const courseIdNum = parseInt(params.courseId, 10);
-  if (isNaN(courseIdNum)) {
-    notFound();
-  }
+  const { isHeb, lang, t } = await serverDetLang(searchParams);
+  const p = await params;
+  const courseIdNum = parseInt(p.courseId, 10);
+  if (isNaN(courseIdNum)) notFound();
 
   // Fetch the course from the DB
   const [course] = await db
@@ -31,19 +33,13 @@ export default async function CoursePage({
     .where(eq(courses.id, courseIdNum))
     .limit(1);
 
-  if (!course) {
-    notFound();
-  }
+  if (!course) notFound();
 
-  // Determine language from searchParams or default to English
-  const language = searchParams?.lang === "he" ? "he" : "en";
-
-  const title = language === "en" ? course.titleEn : course.titleHe;
-  const description =
-    language === "en" ? course.descriptionEn : course.descriptionHe;
+  const title = isHeb ? course.titleHe : course.titleEn;
+  const description = isHeb ? course.descriptionHe : course.descriptionEn;
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-8">
+    <main className="mx-auto max-w-3xl px-4 py-8" dir={isHeb ? "rtl" : "ltr"}>
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl font-bold">{title}</CardTitle>
@@ -51,22 +47,14 @@ export default async function CoursePage({
         <CardContent>
           <p className="mb-4">{description}</p>
           <section className="mb-6">
-            <h2 className="mb-2 text-xl font-semibold">
-              {language === "en" ? "Comments" : "תגובות"}
-            </h2>
-            <p>
-              {language === "en"
-                ? "No comments yet. Be the first to share your thoughts!"
-                : "אין עדיין תגובות. היה הראשון לשתף את מחשבותיך!"}
-            </p>
+            <h2 className="mb-2 text-xl font-semibold">{t.comments}</h2>
+            <p>{t.noComments}</p>
           </section>
           <section>
-            <h2 className="mb-2 text-xl font-semibold">
-              {language === "en" ? "Leave a Comment" : "השאר תגובה"}
-            </h2>
+            <h2 className="mb-2 text-xl font-semibold">{t.leaveComment}</h2>
             {/* Replace this with a proper comment form later */}
             <button className="rounded-md bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700 focus:outline-none">
-              {language === "en" ? "Add Comment" : "הוסף תגובה"}
+              {t.addComment}
             </button>
           </section>
         </CardContent>
