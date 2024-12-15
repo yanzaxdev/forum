@@ -1,22 +1,19 @@
-"use client";
+import { xTrans } from "~/translations";
+import { serverDetLang } from "./utils/language";
+export const dynamic = "force-dynamic";
 
-import { useLanguage } from "./providers";
-
-export default function HomePage() {
-  const { language } = useLanguage();
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: { lang?: string };
+}) {
+  const { t } = await serverDetLang(searchParams);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4 py-8">
-      Welcome Lior !! first pull request
-      <h1 className="mb-4 text-4xl font-bold">
-        {language === "en"
-          ? "Welcome to the Open Uni Forum"
-          : "ברוכים הבאים לפורום האוניברסיטה הפתוחה"}
-      </h1>
+      <h1 className="mb-4 text-4xl font-bold">{t.welcomeMessage}</h1>
       <p className="mb-6 max-w-md text-center text-lg">
-        {language === "en"
-          ? "A place to share thoughts, leave feedback, and explore courses offered at the Open University."
-          : "מקום לשתף מחשבות, להשאיר משוב, ולחקור קורסים באוניברסיטה הפתוחה."}
+        {t.welcomeDescription}
       </p>
     </main>
   );

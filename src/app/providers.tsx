@@ -1,20 +1,20 @@
 "use client";
 
 import { ThemeProvider } from "next-themes";
-import { createContext, useState, useContext } from "react";
-import type { ReactNode } from "react";
+import { createContext, useContext, useMemo, ReactNode, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+import { xTrans } from "~/translations";
 
 type Language = "en" | "he";
 
-// Create a Language context
 const LanguageContext = createContext<{
-  language: Language;
-  toggleLanguage: () => void;
+  lang: Language;
+  isHeb: boolean;
+  t: typeof xTrans.en | typeof xTrans.he;
 }>({
-  language: "en",
-  toggleLanguage: () => {
-    console.warn("toggleLanguage function is not implemented");
-  },
+  lang: "en",
+  isHeb: false,
+  t: xTrans.en,
 });
 
 export function useLanguage() {
@@ -22,17 +22,20 @@ export function useLanguage() {
 }
 
 export function Providers({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>("en");
-
-  const toggleLanguage = () => {
-    setLanguage((prev) => (prev === "en" ? "he" : "en"));
-  };
+  const searchParams = useSearchParams();
+  const language = (searchParams.get("lang") as Language) || "he";
+  const isHebrew = useMemo(() => language === "he", [language]);
+  const t = useMemo(() => (isHebrew ? xTrans.he : xTrans.en), [isHebrew]);
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <LanguageContext.Provider value={{ language, toggleLanguage }}>
-        {children}
-      </LanguageContext.Provider>
+      <Suspense fallback={<div>Loading...</div>}>
+        <LanguageContext.Provider
+          value={{ lang: language, isHeb: isHebrew, t }}
+        >
+          {children}
+        </LanguageContext.Provider>
+      </Suspense>
     </ThemeProvider>
   );
 }

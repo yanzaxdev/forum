@@ -1,6 +1,5 @@
 import { db } from "~/server/db";
 import { courses } from "~/server/db/schema";
-import { eq } from "drizzle-orm";
 import CoursesList from "./CoursesList";
 
 export const dynamic = "force-dynamic"; // if needed for SSR

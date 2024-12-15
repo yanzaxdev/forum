@@ -1,14 +1,12 @@
 "use client";
-
 import Link from "next/link";
 import {
   Card,
   CardHeader,
   CardTitle,
   CardContent,
-} from "~/app/_components/Card";
+} from "~/app/components/Card";
 import { useLanguage } from "../providers";
-
 type DB_Course = {
   id: number;
   titleEn: string;
@@ -23,18 +21,16 @@ interface CoursesListProps {
 }
 
 export default function CoursesList({ courses }: CoursesListProps) {
-  const { language } = useLanguage();
+  const { lang, isHeb, t } = useLanguage();
 
   return (
-    <>
-      <h1 className="mb-4 text-3xl font-bold">
-        {language === "en" ? "Courses" : "קורסים"}
-      </h1>
+    <div dir={isHeb ? "rtl" : "ltr"}>
+      <h1 className="mb-4 text-3xl font-bold">{t.courses}</h1>
       <div className="grid gap-4">
         {courses.map((course) => {
-          const title = language === "en" ? course.titleEn : course.titleHe;
+          const title = lang === "en" ? course.titleEn : course.titleHe;
           const desc =
-            language === "en" ? course.descriptionEn : course.descriptionHe;
+            lang === "en" ? course.descriptionEn : course.descriptionHe;
 
           return (
             <Card key={course.id}>
@@ -44,16 +40,16 @@ export default function CoursesList({ courses }: CoursesListProps) {
               <CardContent>
                 <p className="mb-2">{desc}</p>
                 <Link
-                  href={`/courses/${course.id}`}
+                  href={`/courses/${course.id}?lang=${lang}`}
                   className="text-blue-500 hover:underline"
                 >
-                  {language === "en" ? "View Course" : "צפה בקורס"}
+                  {t.viewCourse}
                 </Link>
               </CardContent>
             </Card>
           );
         })}
       </div>
-    </>
+    </div>
   );
 }
