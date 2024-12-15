@@ -24,16 +24,18 @@ export function useLanguage() {
 export function Providers({ children }: { children: ReactNode }) {
   const searchParams = useSearchParams();
   const language = (searchParams.get("lang") as Language) || "he";
-
-  // Memoize the derived value to avoid unnecessary re-renders
   const isHebrew = useMemo(() => language === "he", [language]);
   const t = useMemo(() => (isHebrew ? xTrans.he : xTrans.en), [isHebrew]);
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <LanguageContext.Provider value={{ lang: language, isHeb: isHebrew, t }}>
-        {children}
-      </LanguageContext.Provider>
+      <Suspense fallback={<div>Loading...</div>}>
+        <LanguageContext.Provider
+          value={{ lang: language, isHeb: isHebrew, t }}
+        >
+          {children}
+        </LanguageContext.Provider>
+      </Suspense>
     </ThemeProvider>
   );
 }

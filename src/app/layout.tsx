@@ -19,9 +19,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="bg-background text-foreground min-h-screen transition-colors">
-        <NavBar />
         <Suspense fallback={<div>Loading...</div>}>
-          <Providers>{children}</Providers>
+          <Providers>
+            <NavBar />
+            {children}
+          </Providers>
         </Suspense>
       </body>
     </html>

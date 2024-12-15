@@ -4,8 +4,6 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import { Button } from "~/app/components/Button";
 import { Sun, Moon } from "lucide-react";
-import { xTrans } from "~/translations";
-import { useSearchParams } from "next/navigation";
 import { useLanguage } from "../providers";
 
 export default function NavBar() {
