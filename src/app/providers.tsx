@@ -1,44 +1,23 @@
 "use client";
 
 import { ThemeProvider } from "next-themes";
-import { createContext, useState, useContext, useMemo } from "react";
+import { createContext, useContext, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import type { ReactNode } from "react";
 
 type Language = "en" | "he";
 
-const LanguageContext = createContext<{
-  lang: Language;
-  isHeb: boolean;
-  toggleLanguage: () => void;
-}>({
-  lang: "en",
-  isHeb: false,
-  toggleLanguage: () => {
-    console.log("No provider found");
-  },
-});
-
-export function useLanguage() {
-  return useContext(LanguageContext);
-}
-
 export function Providers({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>("en");
+  // Use the search parameters to determine the current language
+  const searchParams = useSearchParams();
+  const language = (searchParams.get("lang") as Language) || "en";
 
-  // Use useMemo to derive isHebrew from language
+  // Memoize the derived value to avoid unnecessary re-renders
   const isHebrew = useMemo(() => language === "he", [language]);
-
-  const toggleLanguage = () => {
-    setLanguage((prev) => (prev === "en" ? "he" : "en"));
-  };
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <LanguageContext.Provider
-        value={{ lang: language, isHeb: isHebrew, toggleLanguage }}
-      >
-        {children}
-      </LanguageContext.Provider>
+      {children}
     </ThemeProvider>
   );
 }
