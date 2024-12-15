@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import { Button } from "~/app/components/Button";
 import { Sun, Moon } from "lucide-react";
@@ -10,7 +10,23 @@ import { useLanguage } from "../providers";
 export default function NavBar() {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
-  const { isHeb, lang, t, setLanguage } = useLanguage();
+  const { isHeb, lang, t, setLanguage, langParam } = useLanguage();
+
+  const handleLanguageToggle = () => {
+    const newLang = isHeb ? "en" : "he";
+    setLanguage(newLang);
+
+    // Get the current URL and its search parameters
+    const currentUrl = new URL(window.location.href);
+    const searchParams = new URLSearchParams(currentUrl.search);
+
+    // Set the new language parameter
+    if (newLang === "he") searchParams.delete("lang");
+    else searchParams.set("lang", newLang);
+
+    // Update the URL with the new search parameters
+    router.push(`${currentUrl.pathname}?${searchParams.toString()}`);
+  };
 
   return (
     <nav
@@ -19,26 +35,19 @@ export default function NavBar() {
     >
       {/* Navigation Links */}
       <div className="flex items-center gap-2">
-        <Link href={isHeb ? "/" : "/?lang=en"}>
+        <Link href={`/${langParam}`}>
           <span className="text-xl font-bold hover:underline">
             {t.openUniForum}
           </span>
         </Link>
-        <Link
-          href={isHeb ? "/courses" : "/courses?lang=en"}
-          className="hover:underline"
-        >
+        <Link href={`/courses${langParam}`} className="hover:underline">
           {t.courses}
         </Link>
       </div>
       <div className="flex items-center gap-4">
         {/* Toggle Language Button */}
         <Button
-          onClick={() => {
-            const newLang = isHeb ? "en" : "he";
-            setLanguage(newLang);
-            router.push(`/?lang=${newLang}`);
-          }}
+          onClick={handleLanguageToggle}
           className="border border-gray-300 hover:bg-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
         >
           {isHeb ? "English" : "עברית"}
