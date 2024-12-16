@@ -1,6 +1,5 @@
-import { xTrans } from "~/translations";
 import { serverDetLang } from "./utils/language";
-import { popScript } from "./script";
+import { popScript } from "./tsScripts/generalScript";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage({

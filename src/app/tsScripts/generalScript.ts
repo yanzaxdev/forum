@@ -1,6 +1,5 @@
 import {InferInsertModel} from 'drizzle-orm';
-import {db} from '~/server/db';
-import {courseRankings, courses, users} from '~/server/db/schema';
+import {courseRankings, courses, db, users} from '~/server/db';
 
 export async function popScript() {
   const newCourseRankings: InferInsertModel<typeof courseRankings>[] = [
@@ -194,3 +193,44 @@ export async function popScript() {
       await db.insert(courseRankings).values(newCourseRankings).execute();
   return res;
 }
+
+
+
+// // Example usage in wherever you're handling the course ranking submission
+// // This could be in an API route, form submission handler, etc.
+
+// import {db} from '~/server/db';
+// import {updateCourseRankings} from '~/server/db/mutations/courseRankings';
+
+// // Example function handling a course ranking submission
+// async function handleCourseRankingSubmission() {
+//   try {
+//     const newRanking = {
+//       courseId: 123,  // The course ID
+//       userId: 456,    // The user ID
+//       grade: 85.5,
+//       examDifficulty: 4.2,
+//       assignmentDifficulty: 3.8,
+//       interestLevel: 4.5,
+//     };
+
+//     // This will:
+//     // 1. Insert/update the user's ranking
+//     // 2. Recalculate the course averages
+//     // 3. Return the updated course data
+//     const updatedCourse = await updateCourseRankings(db, newRanking);
+
+//     console.log('Course updated:', updatedCourse);
+//   } catch (error) {
+//     console.error('Error updating course ranking:', error);
+//   }
+// }
+
+// // If you want to check existing rankings:
+// async function checkExistingRankings() {
+//   // Get all rankings for a course
+//   const allRankings = await getCourseRankings(db, 123);
+
+//   // Get a specific user's ranking
+//   const userRanking = await getUserCourseRanking(db, 123, 456);
+// }

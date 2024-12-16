@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "~/app/components/Card";
 import { db } from "~/server/db"; // db should be your Drizzle db instance
-import { courses } from "~/server/db/schema";
+import { courses } from "~/server/db";
 import { SearchParams } from "next/dist/server/request/search-params";
 import { serverDetLang } from "~/app/utils/language";
 
