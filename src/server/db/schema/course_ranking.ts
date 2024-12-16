@@ -12,7 +12,7 @@ export const courseRankings = createTable(
       id: integer('id').primaryKey().generatedByDefaultAsIdentity(),
       courseId: integer('course_id').notNull().references(() => courses.id),
       userId: integer('user_id').notNull().references(() => users.id),
-      grade: decimal('grade_average', {precision: 5, scale: 2}).default(sql`0`),
+      grade: decimal('grade', {precision: 5, scale: 2}).default(sql`0`),
       examDifficulty:
           decimal('exam_difficulty', {precision: 3, scale: 2}).default(sql`0`),
       assignmentDifficulty:
