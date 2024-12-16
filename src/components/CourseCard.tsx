@@ -49,23 +49,18 @@ const CourseCard: FC<Props> = ({ course }) => {
           <div className="flex items-center gap-3">
             <span>{title}</span>
           </div>
-          <Badge
-            className={`flex items-center gap-1 px-2 py-1 ${getScoreColor(course.overallScore)}`}
-          >
-            {formattedScore}
-          </Badge>
+          <div className="flex gap-3">
+            <span className="py-1 text-sm text-gray-500">{course.id}</span>
+            <Badge
+              className={`flex items-center gap-1 px-2 py-1 ${getScoreColor(course.overallScore)}`}
+            >
+              {formattedScore}
+            </Badge>
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent>
         <p className="mb-2">{desc}</p>
-        <span className="text-sm text-gray-500">{course.id}</span>
-        <div className="flex items-center justify-between">
-          {course.overallScore && (
-            <div className="text-sm text-gray-500">
-              {t.outOf ? `${formattedScore}/10` : `Score: ${formattedScore}/10`}
-            </div>
-          )}
-        </div>
       </CardContent>
     </Card>
   );

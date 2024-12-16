@@ -6,5 +6,6 @@ export async function serverDetLang(searchParams?: SearchParams) {
   const lang = sp?.lang === 'en' ? 'en' : 'he';
   const isHeb = lang === 'he';
   const t = xTrans[lang];
-  return {lang, t, isHeb};
+  const langParam = lang === 'he' ? '' : '?lang=en';
+  return {lang, t, isHeb, langParam};
 }

@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { Sun, Moon, House } from "lucide-react";
+import { Sun, Moon, House, Sheet, Menu } from "lucide-react";
 import { useLanguage } from "../app/providers";
 import { SidebarTrigger } from "./ui/sidebar";
 import { Button } from "./ui/button";
+import { SheetTrigger } from "./ui/sheet";
 
 export default function NavBar() {
   const router = useRouter();
@@ -36,7 +37,11 @@ export default function NavBar() {
     >
       {/* Navigation Links */}
       <div className="flex items-center gap-2">
-        {/* <SidebarTrigger></SidebarTrigger> */}
+        <SheetTrigger asChild>
+          <button className="mr-4">
+            <Menu className="h-6 w-6" />
+          </button>
+        </SheetTrigger>
         <Link href={`/${langParam}`}>
           <span className="text-xl font-bold hover:underline">
             <House className="h-6 w-6" />
@@ -47,14 +52,6 @@ export default function NavBar() {
         </Link>
       </div>
       <div className="flex items-center gap-4">
-        {/* Toggle Language Button */}
-        <Button
-          onClick={handleLanguageToggle}
-          className="border border-gray-300 hover:bg-gray-200 dark:border-gray-600 dark:hover:bg-gray-700"
-        >
-          {isHeb ? "English" : "עברית"}
-        </Button>
-
         {/* Toggle Theme Button */}
         <Button
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
