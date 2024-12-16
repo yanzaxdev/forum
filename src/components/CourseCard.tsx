@@ -4,7 +4,7 @@ import { FC, useState, useEffect, useContext } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./Card";
 import { InferSelectModel } from "drizzle-orm";
 import { courses } from "~/server/db/schema/courses";
-import { useLanguage } from "../providers";
+import { useLanguage } from "../app/providers";
 import { useRouter } from "next/navigation";
 import { Badge } from "./badge";
 type Props = {

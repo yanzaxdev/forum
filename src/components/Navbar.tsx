@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { Button } from "~/app/components/Button";
+import { Button } from "~/components/Button";
 import { Sun, Moon } from "lucide-react";
-import { useLanguage } from "../providers";
+import { useLanguage } from "../app/providers";
 
 export default function NavBar() {
   const router = useRouter();

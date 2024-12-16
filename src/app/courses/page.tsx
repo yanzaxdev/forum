@@ -1,7 +1,7 @@
 import { db } from "~/server/db";
 import { courses } from "~/server/db";
-import { serverDetLang } from "../utils/language";
-import CourseCard from "../components/CourseCard";
+import { serverDetLang } from "../../utils/language";
+import CourseCard from "../../components/CourseCard";
 
 export default async function CoursesPage({
   searchParams,

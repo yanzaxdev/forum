@@ -1,5 +1,5 @@
-import { serverDetLang } from "./utils/language";
-import { popScript } from "./tsScripts/generalScript";
+import { serverDetLang } from "../utils/language";
+import { popScript } from "../tsScripts/generalScript";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage({
