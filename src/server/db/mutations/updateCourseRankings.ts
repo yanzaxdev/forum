@@ -1,10 +1,6 @@
 import {InferInsertModel, sql} from 'drizzle-orm';
-import {and, eq} from 'drizzle-orm/expressions';
-
-import {courseRankings, courses, DbClient} from '../index';
-
-
-
+import {eq} from 'drizzle-orm/expressions';
+import {courseRankings, courses, type DbClient} from '../index';
 type CourseRating = InferInsertModel<typeof courseRankings>;
 
 export async function updateCourseRankings(
@@ -13,7 +9,7 @@ export async function updateCourseRankings(
     const {
       courseId,
       userId,
-      grade,
+      grade,  // Individual student's grade
       examDifficulty,
       assignmentDifficulty,
       interestLevel
@@ -40,11 +36,11 @@ export async function updateCourseRankings(
           },
         });
 
-    // Update course averages using all rankings
+    // Update course averages and overall score
     await tx.update(courses)
         .set({
           gradeAverage: sql`(
-          SELECT AVG(NULLIF(grade, 0))
+          SELECT AVG(NULLIF(grade, 0))  
           FROM ${courseRankings}
           WHERE course_id = ${courseId}
         )`,
@@ -63,6 +59,15 @@ export async function updateCourseRankings(
           FROM ${courseRankings}
           WHERE course_id = ${courseId}
         )`,
+          overallScore: sql`(
+          SELECT 
+            (AVG(NULLIF(grade, 0)) * 0.4) + 
+            (AVG(NULLIF(interest_level, 0)) * 0.3) + 
+            ((10 - AVG(NULLIF(exam_difficulty, 0))) * 0.15) + 
+            ((10 - AVG(NULLIF(assignment_difficulty, 0))) * 0.15)
+          FROM ${courseRankings}
+          WHERE course_id = ${courseId}
+        )`,
         })
         .where(eq(courses.id, courseId));
 
@@ -76,33 +81,8 @@ export async function updateCourseRankings(
         examDifficulty: true,
         assignmentDifficulty: true,
         interestLevel: true,
+        overallScore: true,
       },
     });
-  });
-}
-
-// Helper function to get course rankings for a specific course
-export async function getCourseRankings(db: DbClient, courseId: number) {
-  return await db.query.courseRankings.findMany({
-    where: eq(courseRankings.courseId, courseId),
-    columns: {
-      userId: true,
-      grade: true,
-      examDifficulty: true,
-      assignmentDifficulty: true,
-      interestLevel: true,
-      createdAt: true,
-    },
-    orderBy: (rankings) => rankings.createdAt,
-  });
-}
-
-// Helper function to get a user's ranking for a specific course
-export async function getUserCourseRanking(
-    db: DbClient, courseId: number, userId: number) {
-  return await db.query.courseRankings.findFirst({
-    where:
-        and(eq(courseRankings.courseId, courseId),
-            eq(courseRankings.userId, userId)),
   });
 }

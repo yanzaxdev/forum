@@ -37,8 +37,10 @@ export const xTrans = {
     noComments: 'No comments yet. Be the first to share your thoughts!',
     leaveComment: 'Leave a Comment',
     addComment: 'Add Comment',
+    outOf: 'Out of',
   },
   he: {
+    outOf: 'מתוך',
     viewCourse: 'צפה בקורס',
     welcomeMessage: 'ברוכים הבאים לפורום האוניברסיטה הפתוחה',
     welcomeDescription:

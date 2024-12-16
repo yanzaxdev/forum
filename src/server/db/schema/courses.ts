@@ -35,6 +35,9 @@ export const courses = createTable(
               .default(sql`0`),
       interestLevel:
           decimal('interest_level', {precision: 3, scale: 2}).default(sql`0`),
+      overallScore:
+          decimal('overall_score', {precision: 5, scale: 2}).default(sql`0`),
+
     },
     (course) => ({
       titleIndexEn: index('course_title_en_idx').on(course.titleEn),
