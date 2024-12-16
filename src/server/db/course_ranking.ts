@@ -23,6 +23,7 @@ export const courseRankings = createTable(
       createdAt: timestamp('created_at', {withTimezone: true})
                      .default(sql`CURRENT_TIMESTAMP`)
                      .notNull(),
+
     },
     (ranking) => ({
       courseIdIndex: index('course_id_idx').on(ranking.courseId),
