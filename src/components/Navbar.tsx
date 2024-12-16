@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { Button } from "~/components/ui/Button";
 import { Sun, Moon, House } from "lucide-react";
 import { useLanguage } from "../app/providers";
+import { SidebarTrigger } from "./ui/sidebar";
+import { Button } from "./ui/button";
 
 export default function NavBar() {
   const router = useRouter();
@@ -31,10 +32,11 @@ export default function NavBar() {
   return (
     <nav
       dir={isHeb ? "rtl" : "ltr"}
-      className="bg-background flex items-center justify-between border-b px-4 py-2"
+      className="sticky top-0 flex items-center justify-between border-b bg-gray-100 px-4 py-2 dark:bg-black"
     >
       {/* Navigation Links */}
       <div className="flex items-center gap-2">
+        {/* <SidebarTrigger></SidebarTrigger> */}
         <Link href={`/${langParam}`}>
           <span className="text-xl font-bold hover:underline">
             <House className="h-6 w-6" />

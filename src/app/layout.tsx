@@ -10,7 +10,7 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import { popScript } from "../tsScripts/generalScript";
-import { Sidebar } from "~/components/ui/sidebar";
+import { Sidebar, SidebarProvider } from "~/components/ui/sidebar";
 
 export const metadata = {
   title: "Open Uni Forum",
@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Suspense fallback={<div>Loading...</div>}>
           <Providers>
             <NavBar />
-            {children}
+            <SidebarProvider>{children}</SidebarProvider>
           </Providers>
         </Suspense>
       </body>
