@@ -61,7 +61,7 @@ export async function updateCourseRankings(
         )`,
           overallScore: sql`(
           SELECT 
-            (AVG(NULLIF(grade, 0)) * 0.4) + 
+            ((AVG(NULLIF(grade, 0)) / 10) * 0.4) +  -- Normalize grade to 0-10 scale
             (AVG(NULLIF(interest_level, 0)) * 0.3) + 
             ((10 - AVG(NULLIF(exam_difficulty, 0))) * 0.15) + 
             ((10 - AVG(NULLIF(assignment_difficulty, 0))) * 0.15)
