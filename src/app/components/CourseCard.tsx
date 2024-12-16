@@ -6,7 +6,7 @@ import { InferSelectModel } from "drizzle-orm";
 import { courses } from "~/server/db/schema/courses";
 import { useLanguage } from "../providers";
 import { useRouter } from "next/navigation";
-import { Badge, Star } from "lucide-react";
+import { Badge } from "./badge";
 type Props = {
   course: InferSelectModel<typeof courses>;
 };
