@@ -10,6 +10,7 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import { popScript } from "../tsScripts/generalScript";
+import { Sidebar } from "~/components/ui/sidebar";
 
 export const metadata = {
   title: "Open Uni Forum",

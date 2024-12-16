@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { Button } from "~/components/Button";
-import { Sun, Moon } from "lucide-react";
+import { Button } from "~/components/ui/Button";
+import { Sun, Moon, House } from "lucide-react";
 import { useLanguage } from "../app/providers";
 
 export default function NavBar() {
@@ -37,7 +37,7 @@ export default function NavBar() {
       <div className="flex items-center gap-2">
         <Link href={`/${langParam}`}>
           <span className="text-xl font-bold hover:underline">
-            {t.openUniForum}
+            <House className="h-6 w-6" />
           </span>
         </Link>
         <Link href={`/courses${langParam}`} className="hover:underline">

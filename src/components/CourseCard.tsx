@@ -1,12 +1,12 @@
 "use client";
 
 import { FC, useState, useEffect, useContext } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./Card";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/Card";
 import { InferSelectModel } from "drizzle-orm";
 import { courses } from "~/server/db/schema/courses";
 import { useLanguage } from "../app/providers";
 import { useRouter } from "next/navigation";
-import { Badge } from "./badge";
+import { Badge } from "./ui/badge";
 type Props = {
   course: InferSelectModel<typeof courses>;
 };
@@ -28,10 +28,13 @@ const CourseCard: FC<Props> = ({ course }) => {
   const onClick = () => router.push(`/courses/${course.id}${langParam}`);
   // Get color based on score
   const getScoreColor = (score: string | null | undefined) => {
-    if (!score) return "bg-gray-200 text-gray-700";
-    if (Number(score) >= 8) return "bg-green-100 text-green-800";
-    if (Number(score) >= 6) return "bg-blue-100 text-blue-800";
-    return "bg-orange-100 text-orange-800";
+    if (!score)
+      return "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-200";
+    if (Number(score) >= 8)
+      return "bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100";
+    if (Number(score) >= 6)
+      return "bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-100";
+    return "bg-orange-100 text-orange-800 dark:bg-orange-800 dark:text-orange-100";
   };
 
   /* ----- Return -----*/
