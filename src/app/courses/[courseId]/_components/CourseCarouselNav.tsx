@@ -1,23 +1,31 @@
-// CarouselNav.tsx
 import { type FC } from "react";
-import { CarouselContent, CarouselItem } from "~/components/ui/carousel";
-import { DEFAULT_TABS, TabItem } from "./types";
-import exp from "constants";
+import { type TabItem } from "./types";
 import TabButton from "./TabButton";
+import { cn } from "~/lib/utils";
 
 interface CarouselNavProps {
   tabs: TabItem[];
   activeTab: number;
   handleTabClick: (index: number) => void;
+  className?: string;
 }
 
 const CourseCarouselNav: FC<CarouselNavProps> = ({
   activeTab,
   handleTabClick,
   tabs,
+  className,
 }) => {
   return (
-    <nav className="flex w-full border-b border-gray-200 bg-gray-100 px-4 dark:border-gray-700 dark:bg-gray-900">
+    <nav
+      className={cn(
+        "flex w-full",
+        "border-b border-gray-200 dark:border-gray-700",
+        "bg-gray-100 dark:bg-gray-900",
+        "px-4",
+        className,
+      )}
+    >
       {tabs.map((tab, index) => (
         <TabButton
           key={tab.id}

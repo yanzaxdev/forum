@@ -1,6 +1,5 @@
 "use client";
 
-import { Sidebar } from "lucide-react";
 import { ThemeProvider } from "next-themes";
 import React, {
   createContext,
@@ -9,7 +8,6 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import { SidebarProvider } from "~/components/ui/sidebar";
 import { xTrans } from "~/translations";
 
 type Language = "en" | "he";

@@ -13,7 +13,7 @@ export default async function CoursesPage({
   const { t, lang, isHeb } = await serverDetLang(searchParams);
 
   return (
-    <main className="mx-auto max-w-2xl px-4 py-8">
+    <main className="mx-auto max-w-2xl px-4 py-8" dir={t._dir}>
       {allCourses.map((course) => (
         <CourseCard key={course.id} course={course} />
       ))}

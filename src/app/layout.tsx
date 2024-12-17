@@ -1,47 +1,71 @@
 import "~/styles/globals.css";
 import { Suspense, type ReactNode } from "react";
-import { Providers } from "./providers"; // We'll create a separate file for theme and context providers
-import NavBar from "~/components/Navbar";
-
-import { popScript } from "../tsScripts/generalScript";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "~/components/ui/sheet";
-import { serverDetLang } from "~/utils/language";
-import ForumSheet from "~/components/ForumSheet";
 import { Assistant } from "next/font/google";
-
-export const metadata = {
-  title: "Open Uni Forum",
-  description: "A simple forum for Open University courses",
-};
+import { Metadata } from "next";
+import { cn } from "~/lib/utils";
+import { Providers } from "./providers";
+import NavBar from "~/components/Navbar";
+import { Sheet } from "~/components/ui/sheet";
+import ForumSheet from "~/components/ForumSheet";
+import { serverDetLang } from "~/utils/language";
 
 const assistant = Assistant({
   subsets: ["hebrew"],
-  weight: ["200", "300", "400", "500", "600", "700", "800"], // include the weights you need
+  display: "swap",
+  variable: "--font-assistant",
 });
 
-export default async function RootLayout({
-  children,
-}: {
+export const metadata: Metadata = {
+  title: {
+    default: "Open Uni Forum",
+    template: "%s | Open Uni Forum",
+  },
+  description: "A simple forum for Open University courses",
+  keywords: ["university", "forum", "education", "courses"],
+  authors: [{ name: "Open Uni Forum Team" }],
+  viewport: "width=device-width, initial-scale=1",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
+};
+
+interface RootLayoutProps {
   children: ReactNode;
-}) {
-  const { isHeb, lang, t, langParam } = await serverDetLang();
+}
+
+export default async function RootLayout({ children }: RootLayoutProps) {
+  const { lang, t } = await serverDetLang();
 
   return (
-    <html lang="en" suppressHydrationWarning className={assistant.className}>
-      <body className="bg-background text-foreground flex min-h-screen flex-col transition-colors">
+    <html
+      lang={lang}
+      suppressHydrationWarning
+      className={cn(assistant.className, "antialiased")}
+    >
+      <head />
+      <body
+        className={cn(
+          "flex min-h-screen flex-col",
+          "bg-background text-foreground",
+          "transition-colors duration-300",
+        )}
+      >
         <Providers>
           <Sheet>
-            <ForumSheet />
-            <NavBar />
+            <Suspense fallback={null}>
+              <ForumSheet />
+            </Suspense>
+            <Suspense fallback={null}>
+              <NavBar />
+            </Suspense>
           </Sheet>
-          {/* Main content wrapper */}
-          <div className="flex flex-1 flex-col">{children}</div>
+
+          <main className="flex flex-1 flex-col">
+            <Suspense fallback={null}>{children}</Suspense>
+          </main>
+
+          {/* Optionally add footer here */}
         </Providers>
       </body>
     </html>

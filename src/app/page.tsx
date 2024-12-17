@@ -1,5 +1,4 @@
 import { serverDetLang } from "../utils/language";
-import { popScript } from "../tsScripts/generalScript";
 export const dynamic = "force-dynamic";
 
 export default async function HomePage({
@@ -8,10 +7,6 @@ export default async function HomePage({
   searchParams: { lang?: string };
 }) {
   const { t } = await serverDetLang(searchParams);
-
-  // const res = await popScript();
-  // if (res) console.log(res);
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-4 py-8">
       <h1 className="mb-4 text-4xl font-bold">{t.welcomeMessage}</h1>

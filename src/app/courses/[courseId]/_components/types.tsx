@@ -1,12 +1,12 @@
 import { InferSelectModel } from "drizzle-orm";
 import { Book, MessageCircle, MessageSquare, Users } from "lucide-react";
 import { courses } from "~/server/db";
+import { xTrans } from "~/translations";
 
 export type TabItem = {
-  id: string;
+  id: keyof typeof xTrans.en;
   title: string;
   icon: any;
-  content: string;
 };
 
 export interface TabbedContentProps {
@@ -19,25 +19,21 @@ export const DEFAULT_TABS: TabItem[] = [
     id: "overview",
     title: "Overview",
     icon: Book,
-    content: "Course overview content...",
   },
   {
     id: "reviews",
     title: "Reviews",
     icon: MessageCircle,
-    content: "Student reviews content...",
   },
 
   {
     id: "forum",
     title: "Forum",
     icon: MessageSquare,
-    content: "Forum discussions...",
   },
   {
     id: "tutors",
     title: "Tutors",
     icon: Users,
-    content: "Tutor recommendations...",
   },
 ];

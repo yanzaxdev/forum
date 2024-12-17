@@ -1,71 +1,109 @@
 "use client";
 
+import { FC } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
-import { Sun, Moon, House, Sheet, Menu } from "lucide-react";
-import { useLanguage } from "../app/providers";
-import { SidebarTrigger } from "./ui/sidebar";
+import { Sun, Moon, House, Menu } from "lucide-react";
+import { cn } from "~/lib/utils";
+import { useLanguage } from "~/app/providers";
 import { Button } from "./ui/button";
 import { SheetTrigger } from "./ui/sheet";
-import { Badge } from "./ui/badge";
 
-export default function NavBar() {
+const NavBar: FC = () => {
   const router = useRouter();
   const { theme, setTheme } = useTheme();
-  const { isHeb, lang, t, setLanguage, langParam } = useLanguage();
+  const { isHeb, setLanguage, t, langParam } = useLanguage();
 
   const handleLanguageToggle = () => {
     const newLang = isHeb ? "en" : "he";
     setLanguage(newLang);
 
-    // Get the current URL and its search parameters
     const currentUrl = new URL(window.location.href);
     const searchParams = new URLSearchParams(currentUrl.search);
 
-    // Set the new language parameter
-    if (newLang === "he") searchParams.delete("lang");
-    else searchParams.set("lang", newLang);
+    if (newLang === "he") {
+      searchParams.delete("lang");
+    } else {
+      searchParams.set("lang", newLang);
+    }
 
-    // Update the URL with the new search parameters
     router.push(`${currentUrl.pathname}?${searchParams.toString()}`);
+  };
+
+  const handleThemeToggle = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   return (
     <nav
       dir={isHeb ? "rtl" : "ltr"}
-      className="sticky top-0 flex items-center justify-between border-b bg-gray-100 px-4 py-2 dark:bg-black"
+      className={cn(
+        "sticky top-0 z-50",
+        "flex h-16 items-center justify-between",
+        "border-b bg-gray-100 px-4",
+        "dark:bg-black",
+        "transition-colors duration-200",
+      )}
     >
-      {/* Navigation Links */}
-      <div className="flex items-center gap-2">
+      {/* Left Section: Navigation */}
+      <div className="flex items-center gap-4">
         <SheetTrigger asChild>
-          <button className="mr-4">
-            <Menu className="h-6 w-6" />
-          </button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className={cn("hover:bg-gray-200", "dark:hover:bg-gray-800")}
+          >
+            <Menu className="h-5 w-5" />
+            <span className="sr-only">Open menu</span>
+          </Button>
         </SheetTrigger>
-        <Link href={`/${langParam}`}>
-          <span className="text-xl font-bold hover:underline">
-            <House className="h-6 w-6" />
-          </span>
+
+        <Link
+          href={`/${langParam}`}
+          className={cn(
+            "flex items-center gap-2",
+            "rounded-md p-2",
+            "hover:bg-gray-200",
+            "dark:hover:bg-gray-800",
+            "transition-colors duration-200",
+          )}
+        >
+          <House className="h-5 w-5" />
+          <span className="sr-only">Home</span>
         </Link>
-        <Link href={`/courses${langParam}`} className="hover:underline">
+
+        <Link
+          href={`/courses${langParam}`}
+          className={cn(
+            "rounded-md p-2 text-sm font-medium",
+            "hover:bg-gray-200",
+            "dark:hover:bg-gray-800",
+            "transition-colors duration-200",
+          )}
+        >
           {t.courses}
         </Link>
       </div>
+
+      {/* Right Section: Theme Toggle */}
       <div className="flex items-center gap-4">
-        {/* Toggle Theme Button */}
         <Button
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          aria-label="Toggle theme"
-          className="!bg-transparent !text-current hover:!bg-gray-200 dark:hover:!bg-gray-700"
+          onClick={handleThemeToggle}
+          variant="ghost"
+          size="icon"
+          className={cn("hover:bg-gray-200", "dark:hover:bg-gray-800")}
         >
           {theme === "dark" ? (
             <Sun className="h-5 w-5" />
           ) : (
             <Moon className="h-5 w-5" />
           )}
+          <span className="sr-only">Toggle theme</span>
         </Button>
       </div>
     </nav>
   );
-}
+};
+
+export default NavBar;

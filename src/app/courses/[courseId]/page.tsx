@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { eq } from "drizzle-orm";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/Card";
-import { db } from "~/server/db"; // db should be your Drizzle db instance
+import { db } from "~/server/db";
 import { courses } from "~/server/db";
 import { SearchParams } from "next/dist/server/request/search-params";
 import { serverDetLang } from "~/utils/language";
@@ -13,7 +12,6 @@ type CourseProps = {
   searchParams?: SearchParams;
 };
 
-// This is a server component now, no `use client` at the top
 export default async function CoursePage({
   params,
   searchParams,
