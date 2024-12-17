@@ -1,6 +1,7 @@
 export const xTrans = {
   en: {
     _self: 'English',
+    _opposite: 'Hebrew',
     _dir: 'ltr',
     overview: 'Overview',
     reviews: 'Reviews',
@@ -49,6 +50,7 @@ export const xTrans = {
   },
   he: {
     _self: 'עברית',
+    _opposite: 'English',
     _dir: 'rtl',
     overview: 'כללי',
     reviews: 'ביקורות',

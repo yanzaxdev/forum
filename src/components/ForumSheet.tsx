@@ -95,7 +95,7 @@ const ForumSheet: FC<ForumSheetProps> = ({ open, onOpenChange }) => {
                 "transition-colors duration-200",
               )}
             >
-              {t._self}
+              {t._opposite}
             </Button>
           </SheetFooter>
         </div>

@@ -1,12 +1,13 @@
 "use client";
 
 import { ThemeProvider } from "next-themes";
+import { useSearchParams, useRouter } from "next/navigation";
 import React, {
   createContext,
   useContext,
   useState,
   useEffect,
-  ReactNode,
+  type ReactNode,
 } from "react";
 import { xTrans } from "~/translations";
 
@@ -34,17 +35,31 @@ export function useLanguage() {
 
 export function Providers({ children }: { children: ReactNode }) {
   const [mounted, setMounted] = useState(false);
-  const [lang, setLang] = useState<Language>("en");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const currentLang = searchParams.get("lang") as Language;
+  const [lang, setLang] = useState<Language>(currentLang || "he");
 
   useEffect(() => {
-    const storedLang = (localStorage.getItem("language") as Language) || "en";
-    setLang(storedLang);
     setMounted(true);
   }, []);
 
+  useEffect(() => {
+    if (currentLang) {
+      setLang(currentLang);
+    }
+  }, [currentLang]);
+
   const setLanguage = (newLang: Language) => {
     setLang(newLang);
-    localStorage.setItem("language", newLang);
+    const params = new URLSearchParams(searchParams);
+    if (newLang === "he") {
+      params.delete("lang");
+    } else {
+      params.set("lang", newLang);
+    }
+    router.push(`?${params.toString()}`);
   };
 
   if (!mounted) return null;
@@ -66,7 +81,6 @@ export function Providers({ children }: { children: ReactNode }) {
   );
 }
 
-// Wrapper component to ensure providers are applied
 export function AppWrapper({ children }: { children: ReactNode }) {
   return (
     <Providers>
@@ -75,7 +89,6 @@ export function AppWrapper({ children }: { children: ReactNode }) {
   );
 }
 
-// Separate theme wrapper if needed
 function ThemeWrapper({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
