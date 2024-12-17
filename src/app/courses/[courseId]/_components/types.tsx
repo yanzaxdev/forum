@@ -27,12 +27,7 @@ export const DEFAULT_TABS: TabItem[] = [
     icon: MessageCircle,
     content: "Student reviews content...",
   },
-  {
-    id: "lectures",
-    title: "Lectures",
-    icon: Users,
-    content: "Lecture recommendations...",
-  },
+
   {
     id: "forum",
     title: "Forum",

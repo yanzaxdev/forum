@@ -5,14 +5,8 @@ import { db } from "~/server/db"; // db should be your Drizzle db instance
 import { courses } from "~/server/db";
 import { SearchParams } from "next/dist/server/request/search-params";
 import { serverDetLang } from "~/utils/language";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "~/components/ui/carousel";
-import TabbedContent from "~/app/courses/[courseId]/_components/ForumCarousel";
+
+import CourseCarousel from "./_components/CourseCarousel";
 
 type CourseProps = {
   params: { courseId: string };
@@ -40,7 +34,7 @@ export default async function CoursePage({
 
   return (
     <main className="flex flex-1 flex-col py-1" dir={t._dir}>
-      <TabbedContent course={course} />
+      <CourseCarousel course={course} className="flex-1" />
     </main>
   );
 }

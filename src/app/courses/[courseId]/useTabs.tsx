@@ -74,5 +74,6 @@ export function useTabs(tabs: TabItem[]) {
     setApi,
     skipAnimation,
     handleTabClick,
+    api,
   };
 }
