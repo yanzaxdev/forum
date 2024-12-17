@@ -12,9 +12,6 @@ import {
   SheetTitle,
 } from "~/components/ui/sheet";
 import { serverDetLang } from "~/utils/language";
-import { Button } from "~/components/ui/button";
-import Link from "next/link";
-import { headers } from "next/headers";
 import ForumSheet from "~/components/ForumSheet";
 import { Assistant } from "next/font/google";
 
@@ -37,13 +34,14 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning className={assistant.className}>
-      <body className="bg-background text-foreground min-h-screen transition-colors">
+      <body className="bg-background text-foreground flex min-h-screen flex-col transition-colors">
         <Providers>
           <Sheet>
             <ForumSheet />
             <NavBar />
           </Sheet>
-          {children}
+          {/* Main content wrapper */}
+          <div className="flex flex-1 flex-col">{children}</div>
         </Providers>
       </body>
     </html>

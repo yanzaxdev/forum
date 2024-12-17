@@ -5,6 +5,14 @@ import { db } from "~/server/db"; // db should be your Drizzle db instance
 import { courses } from "~/server/db";
 import { SearchParams } from "next/dist/server/request/search-params";
 import { serverDetLang } from "~/utils/language";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "~/components/ui/carousel";
+import TabbedContent from "~/app/courses/[courseId]/_components/ForumCarousel";
 
 type CourseProps = {
   params: { courseId: string };
@@ -30,30 +38,9 @@ export default async function CoursePage({
 
   if (!course) notFound();
 
-  const title = isHeb ? course.titleHe : course.titleEn;
-  const description = isHeb ? course.descriptionHe : course.descriptionEn;
-
   return (
-    <main className="mx-auto max-w-3xl px-4 py-8" dir={isHeb ? "rtl" : "ltr"}>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl font-bold">{title}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="mb-4">{description}</p>
-          <section className="mb-6">
-            <h2 className="mb-2 text-xl font-semibold">{t.comments}</h2>
-            <p>{t.noComments}</p>
-          </section>
-          <section>
-            <h2 className="mb-2 text-xl font-semibold">{t.leaveComment}</h2>
-            {/* Replace this with a proper comment form later */}
-            <button className="rounded-md bg-blue-600 px-4 py-2 text-white transition hover:bg-blue-700 focus:outline-none">
-              {t.addComment}
-            </button>
-          </section>
-        </CardContent>
-      </Card>
+    <main className="flex flex-1 flex-col py-1" dir={t._dir}>
+      <TabbedContent course={course} />
     </main>
   );
 }
