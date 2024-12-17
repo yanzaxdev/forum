@@ -6,7 +6,10 @@ export default {
   darkMode: ['class'],
   theme: {
     extend: {
-      fontFamily: {sans: ['var(--font-geist-sans)', ...fontFamily.sans]},
+      fontFamily: {
+        sans: ['var(--font-geist-sans)', ...fontFamily.sans],
+        hebrew: ['Assistant'],
+      },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',

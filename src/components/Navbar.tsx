@@ -8,6 +8,7 @@ import { useLanguage } from "../app/providers";
 import { SidebarTrigger } from "./ui/sidebar";
 import { Button } from "./ui/button";
 import { SheetTrigger } from "./ui/sheet";
+import { Badge } from "./ui/badge";
 
 export default function NavBar() {
   const router = useRouter();

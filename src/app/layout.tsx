@@ -16,11 +16,17 @@ import { Button } from "~/components/ui/button";
 import Link from "next/link";
 import { headers } from "next/headers";
 import ForumSheet from "~/components/ForumSheet";
+import { Assistant } from "next/font/google";
 
 export const metadata = {
   title: "Open Uni Forum",
   description: "A simple forum for Open University courses",
 };
+
+const assistant = Assistant({
+  subsets: ["hebrew"],
+  weight: ["200", "300", "400", "500", "600", "700", "800"], // include the weights you need
+});
 
 export default async function RootLayout({
   children,
@@ -30,7 +36,7 @@ export default async function RootLayout({
   const { isHeb, lang, t, langParam } = await serverDetLang();
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={assistant.className}>
       <body className="bg-background text-foreground min-h-screen transition-colors">
         <Providers>
           <Sheet>

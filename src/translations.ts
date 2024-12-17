@@ -1,5 +1,8 @@
 export const xTrans = {
   en: {
+    _self: 'English',
+    _dir: 'ltr',
+    menu: 'Menu',
     viewCourse: 'View Course',
     welcomeMessage: 'Welcome to the Open Uni Forum',
     welcomeDescription:
@@ -40,6 +43,9 @@ export const xTrans = {
     outOf: 'Out of',
   },
   he: {
+    _self: 'עברית',
+    _dir: 'rtl',
+    menu: 'תפריט',
     outOf: 'מתוך',
     viewCourse: 'צפה בקורס',
     welcomeMessage: 'ברוכים הבאים לפורום האוניברסיטה הפתוחה',
