@@ -51,22 +51,22 @@ export default async function RootLayout({ children }: RootLayoutProps) {
           "transition-colors duration-300",
         )}
       >
-        <Providers>
-          <Sheet>
-            <Suspense fallback={null}>
+        <Suspense fallback={null}>
+          <Providers>
+            <Sheet>
               <ForumSheet />
-            </Suspense>
-            <Suspense fallback={null}>
-              <NavBar />
-            </Suspense>
-          </Sheet>
+              <Suspense fallback={null}>
+                <NavBar />
+              </Suspense>
+            </Sheet>
 
-          <main className="flex flex-1 flex-col">
-            <Suspense fallback={null}>{children}</Suspense>
-          </main>
+            <main className="flex flex-1 flex-col">
+              <Suspense fallback={null}>{children}</Suspense>
+            </main>
 
-          {/* Optionally add footer here */}
-        </Providers>
+            {/* Optionally add footer here */}
+          </Providers>
+        </Suspense>
       </body>
     </html>
   );
