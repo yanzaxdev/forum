@@ -1,5 +1,13 @@
 export const xTrans = {
   en: {
+    _self: 'English',
+    _opposite: 'Hebrew',
+    _dir: 'ltr',
+    overview: 'Overview',
+    reviews: 'Reviews',
+    forum: 'Forum',
+    tutors: 'Tutors',
+    menu: 'Menu',
     viewCourse: 'View Course',
     welcomeMessage: 'Welcome to the Open Uni Forum',
     welcomeDescription:
@@ -21,6 +29,7 @@ export const xTrans = {
     privacy: 'Privacy',
     terms: 'Terms',
     help: 'Help',
+    loading: 'Loading',
     feedback: 'Feedback',
     report: 'Report',
     close: 'Close',
@@ -37,8 +46,19 @@ export const xTrans = {
     noComments: 'No comments yet. Be the first to share your thoughts!',
     leaveComment: 'Leave a Comment',
     addComment: 'Add Comment',
+    outOf: 'Out of',
   },
   he: {
+    _self: 'עברית',
+    _opposite: 'English',
+    _dir: 'rtl',
+    overview: 'כללי',
+    reviews: 'ביקורות',
+    forum: 'פורום',
+    tutors: 'מורים',
+    loading: 'טוען',
+    menu: 'תפריט',
+    outOf: 'מתוך',
     viewCourse: 'צפה בקורס',
     welcomeMessage: 'ברוכים הבאים לפורום האוניברסיטה הפתוחה',
     welcomeDescription:
