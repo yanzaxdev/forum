@@ -1,18 +1,22 @@
 import { db } from "~/server/db";
-import { courses } from "~/server/db/schema";
-import { eq } from "drizzle-orm";
-import CoursesList from "./CoursesList";
+import { courses } from "~/server/db";
+import { serverDetLang } from "../../utils/language";
+import CourseCard from "../../components/CourseCard";
 
-export const dynamic = "force-dynamic"; // if needed for SSR
-
-export default async function CoursesPage() {
+export default async function CoursesPage({
+  searchParams,
+}: {
+  searchParams: { lang?: string };
+}) {
   // Fetch courses from the DB
   const allCourses = await db.select().from(courses);
+  const { t, lang, isHeb } = await serverDetLang(searchParams);
 
   return (
-    <main className="mx-auto max-w-2xl px-4 py-8">
-      {/* Pass fetched courses to the client component */}
-      <CoursesList courses={allCourses} />
+    <main className="mx-auto max-w-2xl px-4 py-8" dir={t._dir}>
+      {allCourses.map((course) => (
+        <CourseCard key={course.id} course={course} />
+      ))}
     </main>
   );
 }

@@ -1,20 +1,32 @@
 "use client";
 
 import { ThemeProvider } from "next-themes";
-import { createContext, useState, useContext } from "react";
-import type { ReactNode } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  type ReactNode,
+} from "react";
+import { xTrans } from "~/translations";
 
 type Language = "en" | "he";
 
-// Create a Language context
-const LanguageContext = createContext<{
-  language: Language;
-  toggleLanguage: () => void;
-}>({
-  language: "en",
-  toggleLanguage: () => {
-    console.warn("toggleLanguage function is not implemented");
-  },
+interface LanguageContextType {
+  lang: Language;
+  isHeb: boolean;
+  t: typeof xTrans.en | typeof xTrans.he;
+  langParam: string;
+  setLanguage: (lang: Language) => void;
+}
+
+const LanguageContext = createContext<LanguageContextType>({
+  lang: "en",
+  isHeb: false,
+  t: xTrans.en,
+  langParam: "",
+  setLanguage: () => {},
 });
 
 export function useLanguage() {
@@ -22,17 +34,61 @@ export function useLanguage() {
 }
 
 export function Providers({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>("en");
+  const [mounted, setMounted] = useState(false);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  const toggleLanguage = () => {
-    setLanguage((prev) => (prev === "en" ? "he" : "en"));
+  const currentLang = searchParams.get("lang") as Language;
+  const [lang, setLang] = useState<Language>(currentLang || "he");
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (currentLang) {
+      setLang(currentLang);
+    }
+  }, [currentLang]);
+
+  const setLanguage = (newLang: Language) => {
+    setLang(newLang);
+    const params = new URLSearchParams(searchParams);
+    if (newLang === "he") {
+      params.delete("lang");
+    } else {
+      params.set("lang", newLang);
+    }
+    router.push(`?${params.toString()}`);
   };
+
+  if (!mounted) return null;
 
   return (
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      <LanguageContext.Provider value={{ language, toggleLanguage }}>
+      <LanguageContext.Provider
+        value={{
+          lang,
+          isHeb: lang === "he",
+          t: lang === "he" ? xTrans.he : xTrans.en,
+          langParam: lang === "he" ? "" : "?lang=en",
+          setLanguage,
+        }}
+      >
         {children}
       </LanguageContext.Provider>
     </ThemeProvider>
   );
+}
+
+export function AppWrapper({ children }: { children: ReactNode }) {
+  return (
+    <Providers>
+      <ThemeWrapper>{children}</ThemeWrapper>
+    </Providers>
+  );
+}
+
+function ThemeWrapper({ children }: { children: ReactNode }) {
+  return <>{children}</>;
 }
